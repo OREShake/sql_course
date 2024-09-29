@@ -1,0 +1,1969 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://OREShake.github.io/sql_course/02/02/">
+      
+      
+        <link rel="prev" href="../01/">
+      
+      
+        <link rel="next" href="../03/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Типы данных в PostgreSQL - SQL Yandex Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SQL Yandex Course" class="md-header__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SQL Yandex Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Типы данных в PostgreSQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SQL Yandex Course" class="md-nav__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SQL Yandex Course
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%A8%D0%BF%D0%B0%D1%80%D0%B3%D0%B0%D0%BB%D0%BA%D0%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Шпаргалка
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Введение в базы данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Введение в базы данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Для чего нужна база данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    СУБД - великий библиотекарь
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Язык запросов SQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Первый запрос
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Стиль запроса
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Срезы данных в SQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Срезы данных в SQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как ограничить выборку
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Типы данных в PostgreSQL
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Типы данных в PostgreSQL
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Числовые типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Символьные типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Типы для работы с датой и временем
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Логические типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Управление типом данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ответы на задания
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Изменение типов данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор WHERE. Операторы сравнения
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью оператора WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как работать с диаграммой и описанием базы данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Логические операторы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью логических операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальные операторы в условиях
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы IN, LIKE, BETWEEN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Функции для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение функций для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы и функции для работы с датой и временем
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальное значение NULL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Работа с пропусками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Условная конструкция с оператором CASE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции. Группировка и сортировка данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Агрегирующие функции. Группировка и сортировка данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Математические операции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение агрегирующих функций
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора GROUP BY
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Сортировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка и сортировка по нескольким полям
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Взаимоотношения между таблицами. Типы объединения таблиц
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Взаимоотношения между таблицами. Типы объединения таблиц
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Графическое отображение связей. ER-диаграммы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Переименование полей и таблиц. Псевдонимы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы JOIN. Типы объединения таблиц
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор INNER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы LEFT OUTER JOIN и RIGHT OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор FULL OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Порядок выполнения операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Альтернативные варианты присоединения UNION и UNION ALL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Подзапросы и временные таблицы
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Подзапросы и временные таблицы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в FROM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как сочетать объединения и подзапросы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Временные таблицы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вариативность запросов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Самостоятельный проект
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Самостоятельный проект
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Знакомство с базой данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Задания
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Числовые типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Символьные типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Типы для работы с датой и временем
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Логические типы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Управление типом данных
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ответы на задания
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Типы данных в PostgreSQL</h1>
+
+<p>Данные, сохранённые в базе, принадлежат какому-нибудь типу: это может быть целое или вещественное число, строка и т. д.</p>
+<p>Тип данных определяет формат записи информации в памяти и доступный диапазон значений. Проще говоря, типы данных влияют на операции, которые этим данным доступны. Числа, которые записаны в базе в виде строк, нельзя сложить, чтобы получить сумму. Поэтому часто приходится менять тип со строкового на числовой и наоборот.</p>
+<p>В разных СУБД типы данных могут отличаться, но часто их можно объединить в похожие группы. В PostgreSQL выделяют несколько групп типов данных:</p>
+<ul>
+<li>числовые типы,</li>
+<li>символьные типы,</li>
+<li>логические типы,</li>
+<li>типы для работы с датой и временем,</li>
+<li>специализированные типы для конкретных задач.</li>
+</ul>
+<p>Числа и строки встречаются повсеместно. Подсчитывая расходы или набирая текст письма, вы работаете с разными типами данных: числами и строками соответственно.</p>
+<p>Логические типы используют для информации, которую можно представить в виде утверждений — истинных или ложных. Представьте, что в базе данных магазина нужно хранить данные об истинности следующих утверждений:</p>
+<ul>
+<li>Заказ доставлен покупателю.</li>
+<li>С поставщиком товара продолжают сотрудничать.</li>
+<li>Работник магазина получил премию.</li>
+</ul>
+<p>Такую информацию хранят логические значения. Их ещё называют <em>булевыми</em> в честь математика Джорджа Буля. Таких значений всего два: <code>TRUE</code>, когда утверждение истинно, и <code>FALSE</code> — когда ложно.</p>
+<p>В одну группу объединяется несколько типов данных. Например, символьных типов в PostgreSQL несколько: один для небольших строк, другой — для объёмных текстов и т. д.</p>
+<p>Казалось бы, зачем столько. Но разные типы пригодятся для конкретных задач. Незачем использовать тип для больших текстов, если вы храните только электронные адреса покупателей.</p>
+<p>Всего в PostgreSQL выделяют более 40 типов данных, но всё многообразие вам не понадобится. Специалист по запросам редко выбирает типы данных самостоятельно, ведь их определяют ещё во время проектирования базы.</p>
+<p>В этом уроке мы расскажем об основных типах данных, с которыми специалисты сталкиваются чаще всего.</p>
+<h2 id="_1">Числовые типы</h2>
+<p>Целые и дробные числа относятся к разным типам данных. Дробные числа иначе называют <em>вещественными.</em></p>
+<ul>
+<li>Тип <code>integer</code> хранит целые числа от -2147483648 до +2147483647. Для простых задач этого хватает. Тип данных <code>integer</code> обозначают либо <code>int</code>, либо <code>int4</code>. Такое обозначение называется псевдонимом. Псевдонимы есть не у всех типов данных, их часто используют по историческим причинам. Да, так действительно написано в <a href="https://www.postgresql.org/docs/9.5/datatype.html">документации PostgreSQL</a>.</li>
+<li>Тип <code>real</code> обозначает вещественные числа. У этого типа тоже есть псевдоним — <code>float4</code>.</li>
+</ul>
+<p>Обратите внимание на число в конце псевдонима — оно обозначает, сколько байт занимает такой тип. К примеру, <code>int4</code> занимает 4 байта.</p>
+<hr />
+<p>Таблица базы данных содержит поле с информацией о том, сколько пользователей посещают сайт каждый день. Какой тип данных подойдёт для такого поля?</p>
+<ul>
+<li>
+<p><code>integer</code></p>
+</li>
+<li>
+<p><code>real</code></p>
+</li>
+</ul>
+<hr />
+<p>Какой тип данных подойдёт для поля со средним количеством покупателей в неделю?</p>
+<ul>
+<li>
+<p><code>integer</code></p>
+</li>
+<li>
+<p><code>real</code></p>
+</li>
+</ul>
+<h2 id="_2">Символьные типы</h2>
+<ul>
+<li>
+<p>Тип <code>character</code> содержит текст фиксированной длины. Его обозначают псевдонимом <code>char(n)</code>. На месте символа <code>n</code> может стоять любое число. Например, если вместо <code>n</code> подставить <code>4</code>, строка будет состоять только из четырёх символов. Больше нельзя, но меньше можно: недостающие символы будут заполнены пробелами. Если не указывать <code>n</code>, его значение по умолчанию будет <code>1</code>.</p>
+</li>
+<li>
+<p>В тип <code>character varying</code> входят тексты нефиксированной длины. Его псевдоним — <code>varchar(n)</code>. Значение <code>n</code> управляет лимитом строки, но его можно не указывать.</p>
+</li>
+<li>
+<p>Тип <code>text</code> содержит строку любой длины. Такого типа в стандарте SQL нет, но в некоторых СУБД, помимо PostgreSQL, его тоже используют.</p>
+</li>
+</ul>
+<hr />
+<p>Поле таблицы базы данных содержит названия самых необычных городов мира. Какие типы данных подойдут для такого поля?</p>
+<ul>
+<li>
+<p>Тип <code>char</code>, только нужно указать длину строки</p>
+</li>
+<li>
+<p>Тип <code>varchar</code> без ограничения строки</p>
+</li>
+<li>
+<p>Тип <code>text</code></p>
+</li>
+</ul>
+<h2 id="_3">Типы для работы с датой и временем</h2>
+<ul>
+<li>Тип <code>timestamp</code> содержит дату и время. Чаще всего дату и время указывают в формате ISO: <code>'YYYY-MM-DD'</code>. Например, 30 июня 2010 года записывают так: <code>'2010-06-30'</code>.</li>
+</ul>
+<p>В PostgreSQL типов <code>timestamp</code> два: <code>timestamp with time zone</code>, который включает данные о часовом поясе, и <code>timestamp without time zone</code>, который данных о часовом поясе не содержит.</p>
+<p>Часовые пояса указывают по стандарту UTC: <code>'2004-10-19 10:23:54+02'</code>. В часовом поясе UTC+2 находится, например, Калининград. Сравните со значением типа <code>timestamp without time zone</code>: <code>'2004-10-19 10:23:54'</code>.</p>
+<p>По стандарту SQL обозначение <code>timestamp</code> по умолчанию подразумевает тип <code>timestamp without time zone</code>. Для обозначения типа <code>timestamp with time zone</code> в PostgreSQL используют короткую форму <code>timestamptz</code>.</p>
+<ul>
+<li>В тип <code>date</code> входит только дата. Дату можно задавать в любом формате — главное, выбрать нужный режим.</li>
+<li>Тип <code>time</code> хранит только время и принимает значения от 00:00:00 до 24:00:00.</li>
+<li>Тип <code>interval</code> используют для обозначения интервала между датами. Задать нужный интервал можно с помощью условных обозначений или в свободной форме. Например, запись <code>'1 12:59:10'</code> обозначает 1 день 12 часов 59 минут 10 секунд.</li>
+</ul>
+<h2 id="_4">Логические типы</h2>
+<p>В PostgreSQL к типу <code>boolean</code> относят два значения: <code>TRUE</code> и <code>FALSE</code>. Но эти значения можно указывать по-разному.</p>
+<p>Для <code>TRUE</code> список аналогий такой: <code>'true'</code>, <code>'t'</code>, <code>'yes'</code>, <code>'y'</code>, <code>'on'</code>, <code>'1'</code>.</p>
+<p>Вместо <code>FALSE</code> можно написать: <code>'false'</code>, <code>'f'</code>, <code>'no'</code>, <code>'n'</code>, <code>'off'</code>, <code>'0'</code>.</p>
+<h2 id="_5">Управление типом данных</h2>
+<p>Поменять тип данных можно сразу при выгрузке. При этом тип данных поля в самой таблице не изменится. В таких случаях используют оператор <code>CAST</code>:</p>
+<pre><code>SELECT CAST(поле AS тип данных)
+FROM таблица;
+</code></pre>
+<p>Из таблицы <code>track</code> нужно выгрузить поля <code>track_id</code> и <code>album_id</code>. У этих полей числовой тип данных, но выгрузить их нужно в виде текста. Запрос выглядит так:</p>
+<pre><code>SELECT CAST(track_id AS varchar),
+       CAST(album_id AS varchar)
+FROM track;
+</code></pre>
+<h2 id="_6">Ответы на задания</h2>
+<hr />
+<p>Таблица базы данных содержит поле с информацией о том, сколько пользователей посещают сайт каждый день. Какой тип данных подойдёт для такого поля?</p>
+<ul>
+<li>
+<p><strong>(+)</strong> <code>integer</code></p>
+<ul>
+<li>Количество посетителей — целое число. Два с половиной человека сайт посетить не могут.</li>
+<li>
+<p><strong>(-)</strong> <code>real</code></p>
+</li>
+<li>
+<p>Тип <code>real</code> используют для вещественных чисел, а для поля с количеством пользователей нужен тип с целыми числами.</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>Какой тип данных подойдёт для поля со средним количеством покупателей в неделю?</p>
+<ul>
+<li>
+<p><strong>(-)</strong> <code>integer</code></p>
+<ul>
+<li>Вопрос с подвохом. Среднее может быть дробным, поэтому лучше выбрать тип <code>real</code>.</li>
+<li>
+<p><strong>(+)</strong> <code>real</code></p>
+</li>
+<li>
+<p>Количество человек — целое число, но вот среднее количество человек вполне может быть вещественным числом.</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>Поле таблицы базы данных содержит названия самых необычных городов мира. Какие типы данных подойдут для такого поля?</p>
+<ul>
+<li>
+<p><strong>(-)</strong> Тип <code>char</code>, только нужно указать длину строки</p>
+<ul>
+<li>В таком случае тип <code>char</code> лучше не использовать. Города могут быть совсем короткими, например Э, или подлиннее, как Антананариву.</li>
+<li>
+<p><strong>(+)</strong> Тип <code>varchar</code> без ограничения строки</p>
+</li>
+<li>
+<p>Такой тип данных подойдёт. Город Фюрстенфельдбрук не останется за бортом.</p>
+</li>
+<li>
+<p><strong>(+)</strong> Тип <code>text</code></p>
+</li>
+<li>
+<p>Этот тип очень универсальный: в него «поместится» текст любой длины.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>

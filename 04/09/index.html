@@ -1,0 +1,1851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://OREShake.github.io/sql_course/04/09/">
+      
+      
+        <link rel="prev" href="../08/">
+      
+      
+        <link rel="next" href="../10/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Альтернативные варианты присоединения UNION и UNION ALL - SQL Yandex Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SQL Yandex Course" class="md-header__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SQL Yandex Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Альтернативные варианты присоединения UNION и UNION ALL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SQL Yandex Course" class="md-nav__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SQL Yandex Course
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%A8%D0%BF%D0%B0%D1%80%D0%B3%D0%B0%D0%BB%D0%BA%D0%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Шпаргалка
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Введение в базы данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Введение в базы данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Для чего нужна база данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    СУБД - великий библиотекарь
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Язык запросов SQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Первый запрос
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Стиль запроса
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Срезы данных в SQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Срезы данных в SQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как ограничить выборку
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Типы данных в PostgreSQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Изменение типов данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор WHERE. Операторы сравнения
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью оператора WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как работать с диаграммой и описанием базы данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Логические операторы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью логических операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальные операторы в условиях
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы IN, LIKE, BETWEEN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Функции для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение функций для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы и функции для работы с датой и временем
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальное значение NULL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Работа с пропусками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Условная конструкция с оператором CASE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02/17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции. Группировка и сортировка данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Агрегирующие функции. Группировка и сортировка данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Математические операции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение агрегирующих функций
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора GROUP BY
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Сортировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка и сортировка по нескольким полям
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Взаимоотношения между таблицами. Типы объединения таблиц
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Взаимоотношения между таблицами. Типы объединения таблиц
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Графическое отображение связей. ER-диаграммы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Переименование полей и таблиц. Псевдонимы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы JOIN. Типы объединения таблиц
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор INNER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы LEFT OUTER JOIN и RIGHT OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор FULL OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Порядок выполнения операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Альтернативные варианты присоединения UNION и UNION ALL
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Подзапросы и временные таблицы
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Подзапросы и временные таблицы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в FROM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как сочетать объединения и подзапросы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Временные таблицы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вариативность запросов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Самостоятельный проект
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Самостоятельный проект
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Знакомство с базой данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Задания
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Альтернативные варианты присоединения UNION и UNION ALL</h1>
+
+<p>В прошлых уроках вы учились соединять таблицы «по горизонтали»: объединяли поля из разных таблиц по ключам или общим полям. Это не единственный способ, иногда требуется дополнить одну таблицу другой, то есть соединить их «по вертикали». Для такой задачи используют операторы <code>UNION</code> и <code>UNION ALL</code>.</p>
+<p><img alt="image" src="data:image/png;base64,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AMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAAAAAAAAAAQBgCaAAAAAAAAAAAAAAgDAE0AAAAAAAAAAAAABCGABoAAAAAAAAAAAAACEMADQAAAAAAAAAAAACEIYAGAAAAAAAAAAAAAMIQQAMAAAAAAAAAAAAAYQigAQAAAAAAAAAAAIAwBNAAAAAA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AAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAMATQAAAAAAAAAAAAAEEMADQAAAAAAAAAAAADEEEADAAAAAAAAAAAAADEE0AAAAAAAAAAAAABADAE0AAAAAAAAAAAAABBDAA0AAAAAAAAAAAAAxBBAAwAAAAAAAAAAAAAxBNAAAAAAAAAAAAAAQAwBNAAAAAAAAAAAAAAQQwANAAAAAAAAAAAAAMQQQAMAAAAAAAAAAAAAMQTQAAAAAAAAAAAAAEAM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" /></p>
+<p>Оператор <code>UNION</code> используют, чтобы объединить выдачу SQL-запросов. Можно представить, что к одной таблице «приклеивается» другая.</p>
+<p>Два правила регламентируют использование операторов <code>UNION</code> и <code>UNION ALL</code>:</p>
+<ul>
+<li>Извлекать поля из одной таблицы нужно в том же порядке, что и из другой. Число извлекаемых полей тоже должно совпадать.</li>
+<li>Типы данных в полях должны соответствовать друг другу. Объединить поле типа <code>integer</code> с полем типа <code>varchar</code> не получится, а поля с типами <code>integer</code> и <code>real</code> — можно.</li>
+</ul>
+<p>Рассмотрим пример. Такой запрос выгрузит количество заказов за 2009 год в США, Германии и Бразилии.</p>
+<pre><code>SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2009
+GROUP BY i.billing_country;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>billing_country</th>
+<th>total_purchases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brazil</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>9</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+<p>Похожим запросом можно выгрузить число заказов в тех же странах, но за 2013 год.</p>
+<pre><code>SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2013
+GROUP BY i.billing_country;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>billing_country</th>
+<th>total_purchases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brazil</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>2</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<p>Две выгруженных таблицы похожи: число полей одинаково и типы данных в полях соответствуют друг другу. Значит, такие таблицы можно объединить с помощью оператора <code>UNION</code>.</p>
+<p>После первого запроса указывают оператор <code>UNION</code> и добавляют второй запрос.</p>
+<pre><code>SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2009
+GROUP BY i.billing_country
+UNION
+SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2013
+GROUP BY i.billing_country;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>billing_country</th>
+<th>total_purchases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brazil</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>9</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>16</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+<p>Обратите внимание, что в итоговую таблицу вошли две записи, в которых указаны страны Германия и США. Но запись для Бразилии всего одна. Дело в том, что в 2009 и 2013 годах количество заказов в Бразилии совпадает — их 7. Запись из первой таблицы полностью дублирует запись из второй. Оператор <code>UNION</code> устроен так, что абсолютные дубликаты в итоговую таблицу не входят: останется только одна запись.</p>
+<p>Оператор <code>UNION ALL</code> устроен по-другому.</p>
+<pre><code>SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2009
+GROUP BY i.billing_country
+UNION ALL
+SELECT i.billing_country,
+       COUNT(i.total) AS total_purchases
+FROM invoice AS i
+WHERE i.billing_country IN ('USA',
+                            'Germany',
+                            'Brazil')
+AND EXTRACT(YEAR FROM cast(invoice_date AS date)) = 2013
+GROUP BY i.billing_country;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>billing_country</th>
+<th>total_purchases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brazil</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>9</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Brazil</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Germany</td>
+<td>2</td>
+</tr>
+<tr>
+<td>USA</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<p>Все записи вошли в таблицу, даже полные дубликаты.</p>
+<p>С помощью <code>UNION</code> и <code>UNION ALL</code> тоже можно присоединить несколько таблиц. К запросу добавляют оператор <code>UNION</code> или <code>UNION ALL</code> и указывают новый запрос.</p>
+<pre><code>ЗАПРОС_1
+UNION ALL
+ЗАПРОС_2
+UNION ALL
+ЗАПРОС_3
+UNION ALL
+.......;
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>

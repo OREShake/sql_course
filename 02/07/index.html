@@ -1,0 +1,2027 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://OREShake.github.io/sql_course/02/07/">
+      
+      
+        <link rel="prev" href="../06/">
+      
+      
+        <link rel="next" href="../08/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Логические операторы - SQL Yandex Course</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#and-or" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SQL Yandex Course" class="md-header__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SQL Yandex Course
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Логические операторы
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SQL Yandex Course" class="md-nav__button md-logo" aria-label="SQL Yandex Course" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SQL Yandex Course
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%A8%D0%BF%D0%B0%D1%80%D0%B3%D0%B0%D0%BB%D0%BA%D0%B0/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Шпаргалка
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Введение в базы данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Введение в базы данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Для чего нужна база данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    СУБД - великий библиотекарь
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Язык запросов SQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Первый запрос
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Стиль запроса
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Срезы данных в SQL
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Срезы данных в SQL
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как ограничить выборку
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Типы данных в PostgreSQL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Изменение типов данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор WHERE. Операторы сравнения
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью оператора WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как работать с диаграммой и описанием базы данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Логические операторы
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Логические операторы
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#and-or" class="md-nav__link">
+    <span class="md-ellipsis">
+      Операторы AND и OR
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not" class="md-nav__link">
+    <span class="md-ellipsis">
+      Оператор NOT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Правила действия логических операторов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Приоритет операторов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ответы на задания
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Срез данных с помощью логических операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальные операторы в условиях
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы IN, LIKE, BETWEEN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Функции для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение функций для работы со строками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы и функции для работы с датой и временем
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Специальное значение NULL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../15/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Работа с пропусками
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Условная конструкция с оператором CASE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции. Группировка и сортировка данных
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Агрегирующие функции. Группировка и сортировка данных
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Математические операции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Агрегирующие функции
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение агрегирующих функций
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора GROUP BY
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Сортировка данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Группировка и сортировка по нескольким полям
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Применение оператора HAVING
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03/11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Взаимоотношения между таблицами. Типы объединения таблиц
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Взаимоотношения между таблицами. Типы объединения таблиц
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Графическое отображение связей. ER-диаграммы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/02/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Переименование полей и таблиц. Псевдонимы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/03/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы JOIN. Типы объединения таблиц
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/04/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор INNER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/05/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Операторы LEFT OUTER JOIN и RIGHT OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/06/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оператор FULL OUTER JOIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/07/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Порядок выполнения операторов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/08/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/09/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Альтернативные варианты присоединения UNION и UNION ALL
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04/10/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Подзапросы и временные таблицы
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Подзапросы и временные таблицы
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05/01/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в FROM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Подзапросы в WHERE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    А как в реальной жизни
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Как сочетать объединения и подзапросы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Временные таблицы
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вариативность запросов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Заключение
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Самостоятельный проект
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Самостоятельный проект
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Знакомство с базой данных
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Задания
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#and-or" class="md-nav__link">
+    <span class="md-ellipsis">
+      Операторы AND и OR
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not" class="md-nav__link">
+    <span class="md-ellipsis">
+      Оператор NOT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Правила действия логических операторов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Приоритет операторов
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ответы на задания
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Логические операторы</h1>
+
+<p>Сложные задачи требуют сложных условий для среза. Как объединить несколько условий или выбрать всё, что этим условиям не соответствует? Для таких задач используют логические операторы. В SQL таких операторов три: <code>AND</code>, <code>OR</code>, <code>NOT</code>.</p>
+<h2 id="and-or">Операторы <code>AND</code> и <code>OR</code></h2>
+<p>Операторы <code>AND</code> и <code>OR</code> позволяют объединять условия. <code>AND</code> применяют в том случае, если выгружаемые данные должны соответствовать всем перечисленным условиям.</p>
+<p>Объединим два условия и отберём всех жителей Тулы старше 43 лет:</p>
+<pre><code>WHERE city = 'Тула'
+  AND age &gt; 43;
+</code></pre>
+<p>Туляки младше этого возраста в список не войдут. А жители других городов и подавно.</p>
+<p>Отобрать данные, которые удовлетворяют одному из условий, можно оператором <code>OR</code>:</p>
+<pre><code>WHERE city = 'Тула'
+  OR city = 'Пермь';
+</code></pre>
+<p>В таком списке окажутся не только жители Тулы, но и жители Перми.</p>
+<h2 id="not">Оператор <code>NOT</code></h2>
+<p>Чтобы отобрать жителей всех городов, кроме Тулы, можно «перевернуть» условие оператором <code>NOT</code>. С его помощью выгружают записи, которые не соответствуют условию:</p>
+<pre><code>WHERE NOT city = 'Тула';
+</code></pre>
+<p>Оператор <code>NOT</code> можно также использовать в нескольких условиях. Следом за туляками из выборки пропадут и пермяки:</p>
+<pre><code>WHERE NOT city = 'Тула'
+  AND NOT city = 'Пермь';
+</code></pre>
+<h2 id="_1">Правила действия логических операторов</h2>
+<p>С такими простыми примерами сложностей не возникает, но иногда непросто разобраться, какие значения вернёт тот или иной оператор.</p>
+<p>На самом деле поведение операторов можно описать правилами. Условия, которые вы объединяете в запросе после <code>WHERE</code>, представляют собой утверждения. В запросе ниже их два:</p>
+<pre><code>WHERE NOT city = 'Тула'
+  AND NOT city = 'Пермь';
+</code></pre>
+<p>В переводе с языка SQL на человеческий эти утверждения выглядят так:</p>
+<ul>
+<li>Человек проживает в городе Тула.</li>
+<li>Человек проживает в городе Пермь.</li>
+</ul>
+<p>Каждое из них проверяется на истинность, и на выходе получается либо значение <code>TRUE</code>, если утверждение истинно, или <code>FALSE</code>, если ложно. Затем каждый из логических операторов действует по своим правилам:</p>
+<ul>
+<li><code>AND</code> возвращает <code>TRUE</code>, только если оба логических значения тоже <code>TRUE</code>.</li>
+<li><code>OR</code> возвращает <code>TRUE</code>, если хотя бы одно логическое значение тоже <code>TRUE</code>.</li>
+<li><code>NOT</code> меняет значение выражения на противоположное: <code>TRUE</code> на <code>FALSE</code>, а <code>FALSE</code> на <code>TRUE</code>.</li>
+</ul>
+<p>Возможные сочетания можно собрать в таблицу истинности:</p>
+<table>
+<thead>
+<tr>
+<th>Выражение А</th>
+<th>Выражение B</th>
+<th>WHERE A AND B</th>
+<th>WHERE A OR B</th>
+<th>WHERE NOT A</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>FALSE</td>
+<td>TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>Благодаря логическим операторам в SQL можно записать сложные, но непротиворечивые условия. Ради этого приходится заучивать правила, по которым действуют логические операторы.</p>
+<p>Попробуйте поменять различные параметры в мини-тренажёре ниже. Обратите внимание, как параметры влияют на результат.</p>
+<p>{iframe:<a href="https://code.s3.yandex.net/SQL%20for%20data%20and%20analytics/widgets/sql.filtration.dist/filtration_02.html|minHeight:900px">https://code.s3.yandex.net/SQL%20for%20data%20and%20analytics/widgets/sql.filtration.dist/filtration_02.html|minHeight:900px</a>}</p>
+<hr />
+<p>Таблица с заказами <code>invoice</code> содержит поля:</p>
+<ul>
+<li><code>сustomer_id</code> — идентификатор покупателя;</li>
+<li><code>billing_country</code> — страна выставления счёта;</li>
+<li><code>billing_city</code> — город выставления счёта;</li>
+<li><code>total</code> — сумма заказа.</li>
+</ul>
+<p>Проанализируйте такой запрос:</p>
+<pre><code>SELECT *
+FROM invoice
+WHERE total &lt; 1.98
+  AND billing_country = 'Brazil'
+  AND NOT billing_city = 'Rio de Janeiro'
+  OR customer_id = 13;
+</code></pre>
+<p>Запрос включает несколько условий. Выберите варианты ответа, которые соответствуют этим условиям.</p>
+<ul>
+<li>
+<p>В таблицу не войдут записи с суммой заказа больше <code>1.98</code>, кроме тех, в которых идентификатор покупателя равен <code>13</code>.</p>
+</li>
+<li>
+<p>В таблице окажутся записи, в которых указан город Рио-де-Жанейро или идентификатор покупателя, равный <code>13</code>.</p>
+</li>
+<li>
+<p>В таблицу попадут записи о счетах, выставленных во всех бразильских городах, кроме Рио-де-Жанейро. Также в выборку попадут все записи с идентификатором покупателя, равным <code>13</code>.</p>
+</li>
+<li>
+<p>В таблицу должны попасть записи о счетах, соответствующих двум условиям одновременно: они оформлены в Бразилии покупателем с идентификатором <code>13</code>.</p>
+</li>
+</ul>
+<h2 id="_2">Приоритет операторов</h2>
+<p>Кажется, разобраться с такими условиями уже не так легко. Чем больше условий, тем сложнее уследить за логикой операторов. Условия с разными логическими операторами различаются приоритетом. Первым всегда выполняется условие с оператором <code>NOT</code>, за ним <code>AND</code> и только в последнюю очередь — условие с <code>OR</code>.</p>
+<p>Управлять порядком можно с помощью скобок. В математике арифметические операции в скобках имеют больший приоритет и выполняются первыми. В SQL так же: скобки помогут комбинировать условия и получить нужный срез.</p>
+<p>Продолжим отбирать жителей разных городов:</p>
+<pre><code>WHERE age &gt; 43
+  AND city = 'Тула'
+  OR city = 'Пермь'
+  AND age &lt; 43;
+</code></pre>
+<p>Кого охватит такое условие — туляков старше 43 лет или пермяков моложе 43 лет? И тех и других. Это условие можно переписать так:</p>
+<pre><code>WHERE (age &gt; 43
+  AND city = 'Тула')
+  OR (city = 'Пермь'
+  AND age &lt; 43);
+</code></pre>
+<p>Результат будет одинаковым. Условия с оператором <code>AND</code> обладают большим приоритетом, чем условия с <code>OR</code>. Вспомните математику: умножение выполняется перед сложением, так и с логическими операторами. Если добавить скобки, можно не сомневаться в том, что в срез попадут нужные данные.</p>
+<p>Сравните с другим условием:</p>
+<pre><code>WHERE age &gt; 43
+  AND (city = 'Тула'
+  OR city = 'Пермь');
+</code></pre>
+<p>Условие в скобках приоритетнее, значит, в таблицу попадут и туляки, и пермяки, чей возраст больше 43 лет.</p>
+<hr />
+<p>Прошлый запрос в таблицу <code>invoice</code> был слишком сложным, поэтому его переписали:</p>
+<pre><code>SELECT *
+FROM invoice
+WHERE total &lt; 1.98
+  AND billing_country = 'Brazil'
+  AND (NOT billing_city = 'Rio de Janeiro'
+  OR customer_id = 13);
+</code></pre>
+<p>Изменится ли результат запроса?</p>
+<ul>
+<li>
+<p>Ничего не должно поменяться.</p>
+</li>
+<li>
+<p>Изменится: первыми будут выполнены условия без скобок, а потом те, что в скобках.</p>
+</li>
+<li>
+<p>Изменится: сначала будут выполнены условия в скобках, а потом те, что не в скобках.</p>
+</li>
+</ul>
+<h2 id="_3">Ответы на задания</h2>
+<hr />
+<p>Таблица с заказами <code>invoice</code> содержит поля:</p>
+<ul>
+<li><code>сustomer_id</code> — идентификатор покупателя;</li>
+<li><code>billing_country</code> — страна выставления счёта;</li>
+<li><code>billing_city</code> — город выставления счёта;</li>
+<li><code>total</code> — сумма заказа.</li>
+</ul>
+<p>Проанализируйте такой запрос:</p>
+<pre><code>SELECT *
+FROM invoice
+WHERE total &lt; 1.98
+  AND billing_country = 'Brazil'
+  AND NOT billing_city = 'Rio de Janeiro'
+  OR customer_id = 13;
+</code></pre>
+<p>Запрос включает несколько условий. Выберите варианты ответа, которые соответствуют этим условиям.</p>
+<ul>
+<li>
+<p><strong>(+)</strong> В таблицу не войдут записи с суммой заказа больше <code>1.98</code>, кроме тех, в которых идентификатор покупателя равен <code>13</code>.</p>
+<ul>
+<li>Условие <code>total &lt; 1.98</code> отфильтрует все записи меньше указанной суммы. Записи о заказах покупателя с идентификатором <code>13</code> войдут в таблицу, даже если сумма заказа выше: они попадут в выборку благодаря оператору <code>OR</code>.</li>
+<li>
+<p><strong>(-)</strong> В таблице окажутся записи, в которых указан город Рио-де-Жанейро или идентификатор покупателя, равный <code>13</code>.</p>
+</li>
+<li>
+<p>Записи о счетах, которые оформили жители города Рио-де-Жанейро, в таблицу не попадут благодаря оператору <code>NOT</code>.</p>
+</li>
+<li>
+<p><strong>(+)</strong> В таблицу попадут записи о счетах, выставленных во всех бразильских городах, кроме Рио-де-Жанейро. Также в выборку попадут все записи с идентификатором покупателя, равным <code>13</code>.</p>
+</li>
+<li>
+<p>Записи о счетах, которые оформили жители города Рио-де-Жанейро, в таблицу не попадут благодаря оператору <code>NOT</code>. Кроме тех, в которых идентификатор покупателя равен <code>13</code>.</p>
+</li>
+<li>
+<p><strong>(-)</strong> В таблицу должны попасть записи о счетах, соответствующих двум условиям одновременно: они оформлены в Бразилии покупателем с идентификатором <code>13</code>.</p>
+</li>
+<li>
+<p>В такую таблицу обязательно попадут записи о счетах, оформленных в Бразилии. Но записи о заказах покупателя с идентификатором <code>13</code> войдут в таблицу, даже если счёт оформлен в другой стране: они попадут в выборку благодаря оператору <code>OR</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>Прошлый запрос в таблицу <code>invoice</code> был слишком сложным, поэтому его переписали:</p>
+<pre><code>SELECT *
+FROM invoice
+WHERE total &lt; 1.98
+  AND billing_country = 'Brazil'
+  AND (NOT billing_city = 'Rio de Janeiro'
+  OR customer_id = 13);
+</code></pre>
+<p>Изменится ли результат запроса?</p>
+<ul>
+<li>
+<p><strong>(-)</strong> Ничего не должно поменяться.</p>
+<ul>
+<li>Скобки поменяли приоритет выполнения, значит, поменяется и вывод.</li>
+<li>
+<p><strong>(-)</strong> Изменится: первыми будут выполнены условия без скобок, а потом те, что в скобках.</p>
+</li>
+<li>
+<p>Скобки действуют наоборот: условие в скобках будет выполнено первым. В прошлый запрос входили все записи, в которых идентификатор покупателя был равен <code>13</code>. Теперь приоритет поменялся.</p>
+</li>
+<li>
+<p><strong>(+)</strong> Изменится: сначала будут выполнены условия в скобках, а потом те, что не в скобках.</p>
+</li>
+<li>
+<p>В прошлый запрос входили все записи, в которых идентификатор покупателя равнялся <code>13</code>. Теперь приоритет поменялся: сначала будут отобраны записи, в которых указан любой город, кроме Рио-де-Жанейро, или идентификатор <code>13</code>. Потом от этих записей останутся лишь те, которые удовлетворяют двум другим условиям: <code>total &lt; 1.98 AND billing_country = 'Brazil'</code>.</p>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>
